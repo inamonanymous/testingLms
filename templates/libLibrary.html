@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block body %}
+    <h1 style="text-align: center; color: #ff0000;">Library</h1>
+    <hr>
+    <div style="display: flex; justify-content: center; align-items: center; height: 75px;">
+        <form action="/controlsLib" method="post">
+            <button type="submit" name="addBtn">Add Book</button>
+            <button type="submit" name="showBtn">Show All Books</button>
+            <button type="submit" name="searchBtn">Search Book</button>
+            
+        </form>
+    </div>
+{% endblock %}

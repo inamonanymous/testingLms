@@ -25,21 +25,41 @@ def index():
 #completedlogin page
 @app.route("/success", methods=["POST"])
 def success():
-    username, password = request.form.get("username").strip(), request.form.get("pass").strip()
+    username, password, logType = request.form.get("username").strip(), request.form.get("pass").strip(), request.form.get("loginType")
     cur = db.connection.cursor()
-    cur.execute("SELECT * FROM USERS WHERE username = %s and pass = %s", (username, password))
-    user = cur.fetchone()
-    cur.close()
+    logBool = 0
+    if logType is None:
+        return "Invalid Parameters"
+    if logType == "lib":
+        logBool = 1
+        cur.execute("SELECT * FROM librarian WHERE username = %s and pass = %s", (username, password))    
+        lib = cur.fetchone()
+        cur.close
+        
+        if len(username) == 0:
+            return "input fields cannot be blank(ERR.CD:3)"
+        elif len(password) == 0:
+            return "input fields cannot be blank(ERR.CD:3)"
+
+        if not lib:
+            return "invalid username or password"
+
+        return render_template("libSuccess.html", logBool=logBool)
     
-    if len(username) == 0:
-        return "input fields cannot be blank(ERR.CD:3)"
-    elif len(password) == 0:
-        return "input fields cannot be blank(ERR.CD:3)"
+    elif logType == "stud":
+        cur.execute("SELECT * FROM USERS WHERE username = %s and pass = %s", (username, password))
+        user = cur.fetchone()
+        cur.close()
+        
+        if len(username) == 0:
+            return "input fields cannot be blank(ERR.CD:3)"
+        elif len(password) == 0:
+            return "input fields cannot be blank(ERR.CD:3)"
 
-    if not user:
-        return "invalid username or password"
+        if not user:
+            return "invalid username or password"
 
-    return render_template("success.html")
+        return render_template("success.html", logBool=logBool)
 
 #register page
 @app.route("/register")
@@ -100,7 +120,7 @@ def actionsLib():
 @app.route("/showBooks", methods=["GET"])
 def showBooks():
     cur = db.connection.cursor()
-    cur.execute("SELECT * FROM books_csv")
+    cur.execute("SELECT * FROM books_1")
     data = cur.fetchall()
     cur.close()
     return render_template("showBooks.html", books=data)
@@ -113,15 +133,35 @@ def searching():
         return "Invalid Parameters"
     cur = db.connection.cursor()
     if search == "Sisbn":
-        cur.execute("SELECT * FROM books_csv WHERE isbn LIKE %s", (query,))
+        cur.execute("SELECT * FROM books_1 WHERE isbn LIKE %s", (query,))
         
     elif search == "Sbooks": 
-        cur.execute("SELECT * FROM books_csv WHERE title LIKE %s", (query,))
+        cur.execute("SELECT * FROM books_1 WHERE title LIKE %s", (query,))
     
     books = cur.fetchall()
     cur.close()
     return render_template("searched.html", books=books)
     
+@app.route("/controls", methods=["POST"])
+def controls():
+    if "libraryBtn" in request.form:
+        return render_template("libLibrary.html")
+    elif "settingsBtn" in request.form:
+        return "settings"
+    elif "logoutBtn" in request.form:
+        return redirect(url_for("index"))
+
+@app.route("/controlsLib", methods=["POST"])
+def controlsLib():
+    if request.method == "POST":
+        if "addBtn" in request.form:
+            return render_template("addBooks.html")
+        elif "showBtn" in request.form:
+            return redirect(url_for("showBooks"))
+        elif "searchBtn" in request.form:
+            return render_template("searchbooks.html")
+    else:
+        return "method not allowed"
 
 def checkUsername(username):
     cur = db.connection.cursor()

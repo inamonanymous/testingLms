@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block body %}
+<h1 style="text-align: center ; color: #FF0000;">Register</h1>
+<hr>
+    <div style="position: relative; left: 50px; top: 20px;">
+        <form action="/registering" method="post">
+            <label for="isbn">Book ISBN</label>
+            <input name="isbn" type="text">
+            <br>
+            <label for="rAge">Book Recommended Age</label>
+            <input name="rAge" type="text", required>
+            <br>
+            <label for="title">Book Title</label>
+            <input name="title" type="text" minlength="8" required>
+            <br>
+            <label for="price">Book Price</label>
+            <input name="price" type="password" minlength="8" required>
+            <br>
+            <label for="author">Book Author</label>
+            <input name="author" type="password" minlength="8" required>
+            <br>
+            <button name="regBtn">Register</button>
+        </form>
+    </div>
+{% endblock %}

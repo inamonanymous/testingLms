@@ -1,13 +1,18 @@
 {% extends "layout.html" %}
 {% block body %}
-    <h1 style="text-align: center; color: #ff0000;">Book</h1>
-    <hr>
-    
-    {% for row in books %}
-    <p>Book Title: <a href="https://www.google.com/search?q={{ row.2 }}" target="_blank"> {{ row.2 }}</a></p>
-    <br>
-    <p>Book Author: <a href="https://www.google.com/search?q={{ row.3 }}" target="_blank">{{ row.3 }}</a> </p>
-    <br>
-    <p>Book ISBN Number: <a href="https://www.google.com/search?q=book isbn number {{ row.1 }}" target="_blank">{{ row.1 }}</a></p>
-    {% endfor %}
+    <div>
+        <h1 style="text-align: center; color: #ff0000;">Book</h1>
+        <hr>
+        
+        {% for row in books %}
+        <p>Book ISBN Number: <a href="https://www.google.com/search?q=book isbn number {{ row.1 }}" target="_blank">{{ row.1 }}</a></p>
+        <p>Book Title: <a href="https://www.google.com/search?q={{ row.3 }}" target="_blank"> {{ row.3 }}</a></p>
+        
+        <p>Book Author: <a href="https://www.google.com/search?q={{ row.5 }}" target="_blank">{{ row.5 }}</a> </p>
+        
+        <p>Recommended Age: {{ row.2 }}</p>
+        
+        <p>Book Price: {{ row.4 }}</p>
+        {% endfor %}
+    </div>
 {% endblock %}

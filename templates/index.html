@@ -12,6 +12,11 @@
 
     <div style="position: relative; left: 80px; top: 20px;">
         <form action="/success" method="post">
+            <input type="radio" id="lib" name="loginType" value="lib">
+            <label for="lib">Login as Librarian</label>
+            <input type="radio" id="stud" name="loginType" value="stud">
+            <label for="stud">Login as Student</label>
+            <br>
             <label for="username">Username: </label>
             <input type="text" name="username" placeholder="admin" required style="height: 20px;" minlength="8"></input>
             <br>

@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block body %}
+    <h1 style="text-align: center ; color: #ff0000;">Home</h1>
+    <a>{{  logBool  }}</a>
+    <hr>
+    <div style="display: flex; justify-content: center; align-items: center; height: 75px;">
+        <form action="/controls" method="post">
+            <button name="libraryBtn" type="submit">Library</button>
+            <button name="settingsBtn" type="submit">Account Settings</button>
+            <button name="logoutBtn" type="submit">Logout</button>
+        </form>
+        
+    </div>
+
+{% endblock %}
