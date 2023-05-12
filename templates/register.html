@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block body %}
+<h1 style="text-align: center ; color: #FF0000;">Register</h1>
+<hr>
+    <div style="position: relative; left: 50px; top: 20px;">
+        <form action="/registering" method="post">
+            <label for="fNameR">Enter Fullname</label>
+            <input name="fNameR" type="text">
+            <br>
+            <label for="birthdateR">Enter Birthdate</label>
+            <input name="birthdateR" type="date">
+            <br>
+            <label for="usernameR">Set Username</label>
+            <input name="usernameR" type="text" minlength="8" required>
+            <br>
+            <label for="passR">Set Password</label>
+            <input name="passR" type="password" minlength="8" required>
+            <br>
+            <label for="passR2">Re-enter Password</label>
+            <input name="passR2" type="password" minlength="8" required>
+            <br>
+            <button name="regBtn">Register</button>
+        </form>
+    </div>
+{% endblock %}

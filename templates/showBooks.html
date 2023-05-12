@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% block body %}
+    <h1 style="text-align: center; color: #ff0000;">List Of Books</h1>
+    <hr>
+    <style type="text/css" media="screen">
+        table{
+            border-collapse: collapse;
+            border: 4px solid #FF7F50;
+        }
+
+        table td{
+            border: 4px solid #FF7F50;
+        }
+        div{
+            margin: 0 auto;
+            width: 50%;
+        }
+    </style>
+
+<h1></h1>
+
+<div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>ISBN</th>
+                    <th>TITLE</th>
+                    <th>AUTHOR</th>
+                </tr>
+            </thead>
+                
+            <tbody>
+                {% for row in books %}
+                <tr>
+                    <td>{{ row.0 }}</td>
+                    <td>{{ row.1 }}</td>
+                    <td>{{ row.2 }}</td>
+                    <td>{{ row.3 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+            <tfoot>
+
+            </tfoot>
+        </table>
+    </div>
+{% endblock %}

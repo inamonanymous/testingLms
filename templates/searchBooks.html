@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div>
+        <h1 style="text-align: center ; color: #FF0000;">Search Books</h1>
+        <hr>
+        <form action="/searching" method="post">
+            <p style="font-size: 24px;">Please select searching option</p>
+            <input type="radio" id="Sisbn" name="search" value="Sisbn">
+            <label for="Sisbn">Through ISBN</label>
+            <input type="radio" id="Sbooks" name="search" value="Sbooks">
+            <label for="Sbooks">Through Books</label>
+            <br>
+            <input type="text" name="query" >
+            <button type="submit" name="submitBtn">Submit</button>
+            
+        </form>
+    </div>
+{% endblock %}

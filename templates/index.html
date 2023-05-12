@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block body %}
+    
+   <h1 style="text-align: center; color: #FF0000;">Library Management System</h1>
+   <h3 style="text-align: center; color: #FF0000;">Fundamentals of Database Systems Finals</h3>
+   <p style="text-align: center; "> <span style="font-weight: bold; color: #FF0000;">Programmer:</span> <i style="font-weight: bold;">Aguilar, Stephen Joaquin G.</i> || 
+        <span style="font-weight: bold; color: #FF0000;">Data Analyst:</span> <i style="font-weight: bold;">Bernas, Jollyben</i> ||
+        <span style="font-weight: bold; color: #FF0000;">Project Manager:</span> <i style="font-weight: bold;">Dimapilis, Earl James L.</i>
+    </p>
+    <h4 style="text-align: center; color: #FF0000;" >    B.S.I.T. 2a3</h4>
+    <hr>
+
+    <div style="position: relative; left: 80px; top: 20px;">
+        <form action="/success" method="post">
+            <label for="username">Username: </label>
+            <input type="text" name="username" placeholder="admin" required style="height: 20px;" minlength="8"></input>
+            <br>
+            
+            <label for="pass">Password : </label>
+            <input type="password" name="pass" placeholder="********" required style="height: 20px;" minlength="8"></input>
+            <br>
+            <button type="submit" name="loginBtn">Login</button>
+            
+        </form>
+        <br>
+        <form action="/register" method="get">
+            <button type="submit" name="registerBtn">Register</button>
+        </form>
+    </div>
+        
+
+
+{% endblock %}
