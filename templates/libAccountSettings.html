@@ -22,24 +22,18 @@
             max-width: 200px;
         }
 
-        .form-container {
+        form {
             display: flex;
             flex-direction: column;
             align-items: center;
             margin-top: 50px;
         }
 
-        form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
         input {
             margin-bottom: 10px;
         }
 
-        button[name="regBtn"],
+        button[name="updateBtn"],
         button[name="backBtn"] {
             padding: 10px 20px;
             margin-top: 10px;
@@ -52,32 +46,36 @@
             text-shadow: 1px 1px #000000;
         }
 
-        button[name="regBtn"]:hover,
+        button[name="updateBtn"]:hover,
         button[name="backBtn"]:hover {
             background-color: #990000;
         }
+
+        p {
+            color: #FFFFFF;
+            text-align: center;
+        }
     </style>
 
-    <h1>Add Book</h1>
+    <h1>Account Settings</h1>
     <hr>
-    <div class="form-container">
-        <form action="/adding" method="post">
-            <label for="isbn">Book ISBN:</label>
-            <input name="isbn" type="text" pattern="\d{3}-\d{1,}-\d{3,}-\d{1,}-\d{1}" placeholder="000-0-00000-000-0" required>
+    <p>Account ID: {{ id }}</p>
+    <div>
+        <form action="/libupdating" method="post">
+            <input style="display: none;" type="text" value="{{ id }}" name="id">
+            <label for="fNameU">Change name:</label>
+            <input name="fNameU" type="text">
             <br>
-            <label for="rAge">Book Recommended Age:</label>
-            <input name="rAge" type="text">
+            <label for="usernameU">Update Username:</label>
+            <input name="usernameU" type="text" minlength="8" required>
             <br>
-            <label for="title">Book Title:</label>
-            <input name="title" type="text" required>
+            <label for="passU">Update Password:</label>
+            <input name="passU" type="password" minlength="8" required>
             <br>
-            <label for="price">Book Price:</label>
-            <input name="price" type="text" required>
+            <label for="passU2">Re-enter New Password:</label>
+            <input name="passU2" type="password" minlength="8" required>
             <br>
-            <label for="author">Book Author:</label>
-            <input name="author" type="text" required>
-            <br>
-            <button name="regBtn" type="submit">Register</button>
+            <button name="updateBtn" type="submit">Change</button>
             <button name="backBtn" type="submit" onclick="window.history.go(-1); return false;">Back</button>
         </form>
     </div>

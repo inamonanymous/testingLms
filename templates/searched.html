@@ -1,18 +1,56 @@
 {% extends "layout.html" %}
 {% block body %}
-    <div>
-        <h1 style="text-align: center; color: #ff0000;">Book</h1>
-        <hr>
-        
-        {% for row in books %}
-        <p>Book ISBN Number: <a href="https://www.google.com/search?q=book isbn number {{ row.1 }}" target="_blank">{{ row.1 }}</a></p>
-        <p>Book Title: <a href="https://www.google.com/search?q={{ row.3 }}" target="_blank"> {{ row.3 }}</a></p>
-        
-        <p>Book Author: <a href="https://www.google.com/search?q={{ row.5 }}" target="_blank">{{ row.5 }}</a> </p>
-        
-        <p>Recommended Age: {{ row.2 }}</p>
-        
-        <p>Book Price: {{ row.4 }}</p>
-        {% endfor %}
-    </div>
+
+<style>
+    body {
+        background-color: #111111;
+        color: #FFFFFF;
+        font-family: Arial, sans-serif;
+    }
+    
+    h1 {
+        text-align: center;
+        color: #FF0000;
+        margin-top: 20px;
+    }
+    
+    hr {
+        border-color: #FF0000;
+        margin: 20px auto;
+        max-width: 200px;
+    }
+    
+    a {
+        color: #FFFFFF;
+        text-decoration: none;
+    }
+    
+    a:hover {
+        text-decoration: underline;
+    }
+    
+    div {
+        text-align: center;
+        margin-top: 50px;
+    }
+    
+    p {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div>
+    <h1>Book</h1>
+    <hr>
+    
+    {% for row in books %}
+    <p>Book ISBN Number: <a href="https://www.google.com/search?q=book isbn number {{ row.1 }}" target="_blank"><u>{{ row.1 }}</u></a></p>
+    <p>Book Title: <a href="https://www.google.com/search?q={{ row.3 }}" target="_blank"> <u>{{ row.3 }}</u></a></p>
+    <p>Book Author: <a href="https://www.google.com/search?q={{ row.5 }}" target="_blank"><u>{{ row.5 }}</u></a></p>
+    <p>Recommended Age: {{ row.2 }}</p>
+    <p>Book Price: {{ row.4 }}</p>
+    {% endfor %}
+</div>
+
 {% endblock %}

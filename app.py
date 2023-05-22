@@ -11,9 +11,6 @@ app.config['MYSQL_PASSWORD'] = "password"
 app.config['MYSQL_DB'] = "testinglms"
 
 db = MySQL(app)
-#fl = Firstlane()
-
-#app.register_blueprint(fl.index_view)
 
 #login page
 @app.route("/")
@@ -32,9 +29,10 @@ def success():
         return "Invalid Parameters"
     if logType == "lib":
         logBool = 1
-        cur.execute("SELECT * FROM librarian WHERE username = %s and pass = %s", (username, password))    
+        cur.execute("SELECT id FROM librarian WHERE username = %s and pass = %s", (username, password))    
         lib = cur.fetchone()
         cur.close
+        num = str(lib)[1:-2]
         
         if len(username) == 0:
             return "input fields cannot be blank(ERR.CD:3)"
@@ -44,11 +42,12 @@ def success():
         if not lib:
             return "invalid username or password"
 
-        return render_template("libSuccess.html", logBool=logBool)
+        return render_template("libSuccess.html", logBool=logBool, lib=num)
     
     elif logType == "stud":
-        cur.execute("SELECT * FROM USERS WHERE username = %s and pass = %s", (username, password))
+        cur.execute("SELECT id FROM USERS WHERE username = %s and pass = %s", (username, password))
         user = cur.fetchone()
+        num = str(user)[1:-2]
         cur.close()
         
         if len(username) == 0:
@@ -59,7 +58,7 @@ def success():
         if not user:
             return "invalid username or password"
 
-        return render_template("success.html", logBool=logBool)
+        return render_template("success.html", logBool=logBool, user=num)
 
 #register page
 @app.route("/register")
@@ -88,7 +87,6 @@ def registering():
     if not checkUsername(username):
         return "username not available"
 
-
     cur = db.connection.cursor()
     cur.execute("INSERT INTO users (fName, bdate, username, pass) VALUES (%s, %s, %s, %s)", (name, bdate, username, password))
     db.connection.commit()
@@ -101,7 +99,8 @@ def actions():
     if "libraryBtn" in request.form:
         return render_template("library.html")
     elif "settingsBtn" in request.form:
-        return "settings"
+        id = request.form.get("user")
+        return render_template("accountSettings.html", id=id)
     elif "logoutBtn" in request.form:
         return redirect(url_for("index"))
     
@@ -147,7 +146,8 @@ def controls():
     if "libraryBtn" in request.form:
         return render_template("libLibrary.html")
     elif "settingsBtn" in request.form:
-        return "settings"
+        id = request.form.get("lib")
+        return render_template("libAccountSettings.html", id=id)
     elif "logoutBtn" in request.form:
         return redirect(url_for("index"))
 
@@ -157,23 +157,115 @@ def controlsLib():
         if "addBtn" in request.form:
             return render_template("addBooks.html")
         elif "showBtn" in request.form:
-            return redirect(url_for("showBooks"))
+            return redirect(url_for("libShowBooks"))
         elif "searchBtn" in request.form:
             return render_template("searchbooks.html")
+        elif "delBtn" in request.form:
+            return render_template("delBooks.html")
     else:
         return "method not allowed"
 
+@app.route("/adding", methods=["POST"])
+def adding():
+    isbn, rAge, title, price, author = request.form.get("isbn"), request.form.get("rAge"), request.form.get("title"), request.form.get("price"), request.form.get("author")
+    cur = db.connection.cursor()
+    cur.execute("INSERT INTO books_1 (isbn, recommendedAge, title, price, author) VALUES (%s, %s, %s, %s, %s)", (isbn, rAge, title, price, author))
+    db.connection.commit()
+    cur.close()
+    return redirect(url_for("libShowBooks"))
+
+@app.route("/libShowBooks", methods=["GET"])
+def libShowBooks():
+    cur = db.connection.cursor()
+    cur.execute("SELECT * FROM books_1")
+    data = cur.fetchall()
+    cur.close()
+    return render_template("libShowBooks.html", books=data)
+
+@app.route("/deleting", methods=["POST"])
+def deleting():
+    isbn = request.form.get("isbn")
+    cur = db.connection.cursor()
+    cur.execute("DELETE FROM books_1 WHERE isbn = %s", (isbn,))
+    db.connection.commit()
+    cur.close()
+    return redirect(url_for("libShowBooks"))
+
+@app.route("/updating", methods=["POST"])
+def updating():
+    fName, bdate, username, passw, passw2, id = request.form.get("fNameU").strip(), request.form.get("birthdateU").strip(), request.form.get("usernameU").strip(), request.form.get("passU").strip(), request.form.get("passU2").strip(), request.form.get("id")
+    
+    if len(fName) == 0:
+        return "<h1>please provide real time data (ERR.CD:1)"
+    elif len(username) == 0 or len(username) < 8:
+        return "<h1>please provide real time data (ERR.CD:1)"
+    elif len(passw) == 0 or len(passw) < 8:
+        return "<h1>please provide real time data (ERR.CD:1)"
+    elif len(passw2) == 0 or len(passw2) < 8:
+        return "<h1>please provide real time data (ERR.CD:1)"
+    elif len(bdate) == 0:
+        return "<h1>please provide real time data (ERR.CD:1)"
+
+    if passw != passw2:
+        return "<h1>please make sure the two password field is matching (ERR.CD:2)<h1>" 
+
+    if not checkUsername(username):
+        return "username not available"
+
+    cur = db.connection.cursor()
+    cur.execute("UPDATE users SET fName = %s, bdate = %s, username = %s, pass = %s WHERE id = %s", (fName, bdate, username, passw, id))
+    db.connection.commit()
+    cur.close()
+    return "account updated successfully, click the topleft (left arrow) button to go back, we will fix this feature soon"
+
+@app.route("/libupdating", methods=["POST"])
+def libupdating():
+    fName, username, passw, passw2, id = request.form.get("fNameU").strip(), request.form.get("usernameU").strip(), request.form.get("passU").strip(), request.form.get("passU2").strip(), request.form.get("id")
+    
+    if len(fName) == 0:
+        return "<h1>please provide real time data (ERR.CD:1)"
+    elif len(username) == 0 or len(username) < 8:
+        return "<h1>please provide real time data (ERR.CD:1)"
+    elif len(passw) == 0 or len(passw) < 8:
+        return "<h1>please provide real time data (ERR.CD:1)"
+    elif len(passw2) == 0 or len(passw2) < 8:
+        return "<h1>please provide real time data (ERR.CD:1)"
+    
+    if passw != passw2:
+        return "<h1>please make sure the two password field is matching (ERR.CD:2)<h1>" 
+
+    if checkUsername2(username):
+        return "username not available"
+
+    cur = db.connection.cursor()
+    cur.execute("UPDATE librarian SET name = %s, username = %s, pass = %s WHERE id = %s", (fName, username, passw, id))
+    db.connection.commit()
+    cur.close()
+    return "account updated successfully, click the topleft (left arrow) button to go back, we will fix this feature soon"
+
 def checkUsername(username):
     cur = db.connection.cursor()
-    cur.execute("SELECT * FROM users where username = %s", (username,))
+    cur.execute("SELECT * FROM users WHERE username = %s", (username,))
     usernames = cur.fetchall()
     if usernames:
         for row in usernames:
             print(username, row[3])
-            if username == str(row[3]):
+            if username.strip() == str(row[3]).strip():
                 return False
-
+    cur.close()
     return True
+
+def checkUsername2(username):
+    cur = db.connection.cursor()
+    cur.execute("SELECT * FROM librarian WHERE username = %s", (username,))
+    usernames = cur.fetchall()
+    if usernames:
+        for row in usernames:
+            print(username, row[3])
+            if username.strip() == str(row[3]).strip():
+                return True
+    cur.close()
+    return False
 
 if __name__ == "__main__":
     app.run(debug=True)

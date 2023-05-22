@@ -1,0 +1,92 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<style>
+    body {
+        background-color: #111111;
+        color: #FFFFFF;
+        font-family: Arial, sans-serif;
+    }
+    
+    h1 {
+        text-align: center;
+        color: #FF0000;
+        margin-top: 20px;
+    }
+    
+    hr {
+        border-color: #FF0000;
+        margin: 20px auto;
+        max-width: 200px;
+    }
+    
+    form {
+        position: relative;
+        left: 50px;
+        top: 20px;
+        margin-bottom: 20px;
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #FF0000;
+    }
+    
+    input {
+        margin-bottom: 10px;
+        width: 200px;
+        padding: 5px;
+        font-size: 16px;
+    }
+    
+    button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #FF0000;
+        color: #FFFFFF;
+        border: none;
+        margin: 0 10px;
+        cursor: pointer;
+    }
+    
+    button:hover {
+        background-color: #FF3333;
+    }
+</style>
+
+<h1>Account Settings</h1>
+<hr>
+
+Account ID: {{ id }}
+
+<div>
+    <form action="/updating" method="post">
+        <input type="hidden" name="id" value="{{ id }}">
+        
+        <label for="fNameU">Change name</label>
+        <input name="fNameU" type="text">
+        <br>
+        
+        <label for="birthdateU">Change Birthdate</label>
+        <input name="birthdateU" type="date">
+        <br>
+        
+        <label for="usernameU">Update Username</label>
+        <input name="usernameU" type="text" minlength="8" required>
+        <br>
+        
+        <label for="passU">Update Password</label>
+        <input name="passU" type="password" minlength="8" required>
+        <br>
+        
+        <label for="passU2">Re-enter New Password</label>
+        <input name="passU2" type="password" minlength="8" required>
+        <br>
+        
+        <button name="updateBtn" type="submit" onclick="window.history.go(-1); return true;">Change</button>
+        <button type="button" onclick="window.history.go(-1); return false;">Back</button>
+    </form>
+</div>
+
+{% endblock %}
