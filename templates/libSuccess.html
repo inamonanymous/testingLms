@@ -60,27 +60,34 @@
     button:hover {
         background-color: #990000;
     }
+        
     .container {
-            margin-top: 50px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-        }
+        margin-top: 50px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+}
 
-        .square {
-            width: 200px;
-            height: 40px;
-            border: 5px solid #FF0000;
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-        }
+.square {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 200px;
+    height: 150px;
+    border: 5px solid #FF0000;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 10px;
+}
 
-        .number-input {
-            margin-top: 20px;
-        }
+.label {
+    margin-top: 20px;
+}
+
+
 </style>
 
 <h1>Home</h1>
@@ -97,40 +104,32 @@
 </div>
 
 <div class="container">
-    <div>
-        <label for="allBooks">Number Books in Database</label>
-    </div>
     <div class="square">
         <span id="allBooks">{{ count_books }}</span>
+        <div class="label">Number of Books in Database</div>
     </div>
     
-    <div>
-        <label for="availBooks">Number of Books Available</label>
-    </div>
     <div class="square">
         <span id="availBooks">{{ available_books }}</span>
+        <div class="label">Number of Books Available</div>
     </div>
 
-    <div>
-        <label for="pendingBooks">Number of Pending Requests</label>
-    </div>
     <div class="square">
         <span id="pendingBooks">{{ pending_books }}</span>
+        <div class="label">Number of Books in Pending Requests</div>
     </div>
     
-    <div>
-        <label for="!availBooks">Number of Books Not Available</label>
-    </div>
     <div class="square">
         <span id="!availBooks">{{ unavailable_books }}</span>
+        <div class="label">Number of Books Not Available</div>
     </div>
 
-    <div>
-        <label for="!pendingBooks">Number of Books with no Requests</label>
-    </div>
     <div class="square">
         <span id="!pendingBooks">{{ unpending_books }}</span>
+        <div class="label">Number of Books with no Requests</div>
     </div>
+</div>
+
 </div>
 
 {% endblock %}
