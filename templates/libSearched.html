@@ -56,21 +56,15 @@
 <div>
     <h1>Book</h1>
     <hr>
-    
     {% for row in books %}
-    {% set isbn = row.1 %}
-    <p>Book ISBN Number: <a href="https://www.google.com/search?q=book isbn number {{ row.1 }}" target="_blank"><u name="isbnu">{{ isbn }}</u></a></p>
+    <p>Book ISBN Number: <a href="https://www.google.com/search?q=book isbn number {{ row.1 }}" target="_blank"><u>{{ row.1 }}</u></a></p>
     <p>Book Title: <a href="https://www.google.com/search?q={{ row.3 }}" target="_blank"> <u>{{ row.3 }}</u></a></p>
     <p>Book Author: <a href="https://www.google.com/search?q={{ row.5 }}" target="_blank"><u>{{ row.5 }}</u></a></p>
     <p>Recommended Age: {{ row.2 }}</p>
     <p>Book Price: {{ row.4 }}</p>
-    
-    <form action="/borrow" method="post">
-        <input type="hidden" name="isbn" value="{{ isbn }}">
-        
-        <button type="submit" name="borrow">Borrow Book</button>
-        <button onclick="window.history.go(-1); return false;">Back</button>
-    </form>
+    <p>Available to borrow? : {{ is_avail }}</p>
+    <p>Pending request: {{ is_pending }}</p>
+    <button type="button" onclick="window.history.go(-1); return false;">Back</button>
     {% endfor %}
 </div>
 

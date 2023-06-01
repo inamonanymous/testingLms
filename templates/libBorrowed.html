@@ -44,6 +44,22 @@
             background-color: #990000;
         }
 
+        button[name="returnedBtn"] {
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #FF0000;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            text-shadow: 1px 1px #000000;
+        }
+
+        button[name="returnedBtn"]:hover {
+            background-color: #990000;
+        }
+
         table {
             margin: 20px auto;
             border-collapse: collapse;
@@ -61,7 +77,7 @@
         }
     </style>
 
-    <h1>List Of Books</h1>
+    <h1>Borrowed Books</h1>
     <hr>
 
     <div>
@@ -75,32 +91,24 @@
                     <th>Recommended Age</th>
                     <th>Price</th>
                     <th>Author</th>
-                    <th>Availablility</th>
-                    <th>On Pending Request</th>
+                    <th>Book Status</th>
                 </tr>
             </thead>
                 
             <tbody>
                 {% for row in books %}
                     <tr>
-                        {% if row.6 == 1 %}
-                        {% set is_avail = "Yes" %}
-                        {% else %}
-                        {% set is_avail = "No" %}
-                        {% endif %}
-                        {% if row.7 == 1 %}
-                        {% set is_pending = "Yes" %}
-                        {% else %}
-                        {% set is_pending = "No" %}
-                        {% endif %}
                         <td>{{ row.0 }}</td>
                         <td>{{ row.1 }}</td>
                         <td>{{ row.3 }}</td>
                         <td>{{ row.2 }}</td>
                         <td>{{ row.4 }}</td>
                         <td>{{ row.5 }}</td>
-                        <td>{{ is_avail }}</td>
-                        <td>{{ is_pending }}</td>
+                        <td><form action="/returned" method="post">
+                            <input type="hidden" name="id" value="{{ row.0 }}">
+                            <button type="submit" name="returnedBtn">Book Returned</button>
+                            </form>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
